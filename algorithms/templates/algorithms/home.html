@@ -1,6 +1,47 @@
 {% include 'base.html' %}
+{% load static %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'style.css' %}">
+{% endblock style %}
 
 
 {% block content %}
 <h1>Index.html</h1>
+
+<div class="config-box">
+  {% comment %} 
+  <input type="" name="nums" id="numsList">
+  <input type="" name="speed" id="speendList">
+  <input type="" name="isAscending" id="isAscending">
+  {% endcomment %}
+  <form action="">
+    <select name="numbers" id="numSelect">
+      <option value="3">3개</option>
+      <option value="5">5개</option>
+      <option value="10" selected>10개</option>
+      <option value="50">50개</option>
+    </select>
+    <select name="speed" id="speedSelect">
+      <option value="1">매우빠름</option>
+      <option value="10" selected>빠름</option>
+      <option value="100">보통</option>
+      <option value="1000">느림</option>
+    </select>
+    <select name="isAscending" id="isAscendingSelect">
+      <option value="0" selected>오름차순</option>
+      <option value="1">내림차순</option>
+    </select>
+  </form>
+</div>
+
+<div class="config-show"></div>
+<div class="graph-box"></div>
+
+<button type="button" id="randomCreate">Randomly Create</button>
+<button type="button" id="bubbleSort">Bubble Sort</button>
+<button type="button" id="insertionSort">Insertion Sort</button>
+<button type="button" id="selectionSort">Selection Sort</button>
+
+<script src="{% static 'sort.js' %}"></script>
 {% endblock content %}

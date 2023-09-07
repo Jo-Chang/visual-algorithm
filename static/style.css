@@ -1,0 +1,22 @@
+.graph-box {
+  display: flex;
+  flex-flow: row no-wrap;
+  justify-content: space-evenly;
+
+  background: blue;
+  color: red;
+
+  margin: auto auto;
+  padding: 20px;
+  width: 80%;
+  height: 50vw;
+}
+
+.graph-bar {
+  flex-grow: 1;
+
+  background: grey;
+  color: yellow;
+
+  border: 1px solid pink;
+}
