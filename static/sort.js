@@ -1,5 +1,10 @@
 console.log("start!")
 
+const SORTED_COLOR = '#404040'
+const SWAP_COLOR = 'green'
+const BASIC_COLOR = 'grey'
+const COMPARE_COLOR = 'yellow'
+
 const config = {
   nums: 10,
   speed: 100,  // 1-VERYFAST, 10-FAST, 100-MIDDLE, 1000-SLOW
@@ -22,6 +27,7 @@ randomCreateBtn.addEventListener('click', arrayGraph)
 bubbleSortBtn.addEventListener('click', bubbleSort)
 insertionSortBtn.addEventListener('click', insertionSort)
 selectionSortBtn.addEventListener('click', selectionSort)
+speedSelect.addEventListener('change', () => { config.speed = speedSelect.value })
 
 
 function updateConfig() {
@@ -85,6 +91,17 @@ function compare(num1, num2) {
     return num1 > num2
 }
 
+
+function initGraph() {
+  const allGraphBars = document.querySelectorAll('.graph-bar')
+  
+  allGraphBars.forEach((graphBar) => {
+    graphBar.style.background = BASIC_COLOR
+  })
+
+  btnDisabled(true)
+}
+
 function btnDisabled(flag) {
   const btns = document.querySelectorAll('button')
 
@@ -109,38 +126,68 @@ function swapAnimation(index1, index2) {
     const graphBar2 = document.getElementById(`graph-bar-${index2 + 1}`)
 
     // 첫 번째 그래프 바를 초록색으로 변경
-    graphBar1.style.background = 'green'
+    graphBar1.style.background = SWAP_COLOR
 
     setTimeout(() => {
-      // 두 번째 그래프 바를 초록색으로 변경
-      graphBar2.style.background = 'green'
-
+      graphBar2.style.background = SWAP_COLOR
+      
       // Swap Graph Shape
       let temp = graphBar1.style.height
       graphBar1.style.height = graphBar2.style.height
       graphBar2.style.height = temp
-
+      
       temp = graphBar1.textContent
       graphBar1.textContent = graphBar2.textContent
       graphBar2.textContent = temp
-
+      
       setTimeout(() => {
-        // 두 번째 그래프 바를 다시 회색으로 변경
-        graphBar2.style.background = 'grey'
-
-        // 첫 번째 그래프 바를 다시 회색으로 변경
-        graphBar1.style.background = 'grey'
-
         // 애니메이션 완료 후 resolve 호출
+        graphBar1.style.background = BASIC_COLOR
+        graphBar2.style.background = BASIC_COLOR
         resolve()
       }, config.speed)
     }, config.speed)
   })
 }
 
-function comapreAnimation(index1, index2) {
-  // 두 인덱스 비교하는 애니메이션
+function changeGraphBarColor(index, color) {
+  // 두 그래프 바 색깔 변경
+  return new Promise((resolve) => {
+    const graphBar = document.getElementById(`graph-bar-${index + 1}`)
     
+    setTimeout(() => {
+      graphBar.style.background = color
+
+      resolve()
+    }, config.speed)
+  })
+}
+
+function change2GraphBarColor(index1, index2, color) {
+  // 두 그래프 바 색깔 변경
+  return new Promise((resolve) => {
+    const graphBar1 = document.getElementById(`graph-bar-${index1 + 1}`)
+    const graphBar2 = document.getElementById(`graph-bar-${index2 + 1}`)
+
+    graphBar1.style.background = color
+    graphBar2.style.background = color
+
+    setTimeout(() => {
+      resolve()
+    }, config.speed)
+  })
+}
+
+async function changeAllGraphBarColor(color) {
+  const allGraphBars = document.querySelectorAll('.graph-bar')
+  const changeColor = (graphBar) => new Promise((resolve) => setTimeout(() => {
+    graphBar.style.background = color
+    resolve()
+  }, config.speed))
+  
+  for (let i = 0; i < allGraphBars.length; i++) {
+    await changeColor(allGraphBars[i])
+  }
 }
 
 // Bubble 정렬
@@ -150,21 +197,23 @@ async function bubbleSort() {
   
   
   // 랜덤 생성 버튼 비활성화
-  btnDisabled(true)
+  initGraph()
 
   for (let i = 0; i < arrNums.length; i++) {
-    for (let j = i; j < arrNums.length; j++) {
-      // index animation
-      // code...
-
-      if (compare(arrNums[j], arrNums[i])) {
-        await swapAnimation(i, j)
-
-        const temp = arrNums[j]
-        arrNums[j] = arrNums[i]
-        arrNums[i] = temp
+    for (let j = 0; j < arrNums.length - i - 1; j++) {
+      await change2GraphBarColor(j, j+1, COMPARE_COLOR)
+      if (compare(arrNums[j+1], arrNums[j])) {
+        await change2GraphBarColor(j+1, j, BASIC_COLOR)
+        await swapAnimation(j+1, j)
+        
+        const temp = arrNums[j+1]
+        arrNums[j+1] = arrNums[j]
+        arrNums[j] = temp
       }
+      
+      await change2GraphBarColor(j, j+1, BASIC_COLOR)
     }
+    await changeGraphBarColor(arrNums.length - i - 1, SORTED_COLOR)
   }
 
   console.log(arrNums)
@@ -175,25 +224,27 @@ async function bubbleSort() {
 async function insertionSort() {
   console.log("===Insertion Sort Start!===")
 
-  btnDisabled(true)
+  initGraph()
 
   for (let i = 0; i < arrNums.length; i++) {
     for (let j = i; j > 0; j--) {
-      // index animation
-      // code...
-
+      await change2GraphBarColor(j, j-1, COMPARE_COLOR)
       if (compare(arrNums[j], arrNums[j - 1])) {
         // Insertion Sort Animation
+        await change2GraphBarColor(j, j-1, BASIC_COLOR)
         await swapAnimation(j, j - 1)
-
+        
         const temp = arrNums[j]
         arrNums[j] = arrNums[j - 1]
         arrNums[j - 1] = temp
       } else {
+        await change2GraphBarColor(j, j-1, BASIC_COLOR)
         break
       }
     }
   }
+
+  await changeAllGraphBarColor(SORTED_COLOR)
 
   console.log(arrNums)
   btnDisabled(false)
@@ -203,14 +254,15 @@ async function insertionSort() {
 async function selectionSort() {
   console.log("===Selection Sort Start!===")
 
-  btnDisabled(true)
+  initGraph()
 
   for (let i = 0; i < arrNums.length; i++) {
     let minIdx = i
     for (let j = i + 1; j < arrNums.length; j++) {
       // index animation
-      // code...
-
+      await change2GraphBarColor(j, minIdx, COMPARE_COLOR)
+      await change2GraphBarColor(j, minIdx, BASIC_COLOR)
+      
       if (compare(arrNums[j], arrNums[minIdx])) {
         minIdx = j
       }
@@ -221,7 +273,8 @@ async function selectionSort() {
       const temp = arrNums[i]
       arrNums[i] = arrNums[minIdx]
       arrNums[minIdx] = temp
-    } 
+    }
+    await changeGraphBarColor(i, SORTED_COLOR)
   }
 
   console.log(arrNums)
