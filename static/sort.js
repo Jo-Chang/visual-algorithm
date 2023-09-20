@@ -22,11 +22,19 @@ const randomCreateBtn = document.getElementById('randomCreate')
 const bubbleSortBtn = document.getElementById('bubbleSort')
 const insertionSortBtn = document.getElementById('insertionSort')
 const selectionSortBtn = document.getElementById('selectionSort')
+const mergeSortBtn = document.getElementById('mergeSort')
+const heapSortBtn = document.getElementById('heapSort')
+const quickSortBtn = document.getElementById('quickSort')
+const treeSortBtn = document.getElementById('treeSort')
 
 randomCreateBtn.addEventListener('click', arrayGraph)
 bubbleSortBtn.addEventListener('click', bubbleSort)
 insertionSortBtn.addEventListener('click', insertionSort)
 selectionSortBtn.addEventListener('click', selectionSort)
+mergeSortBtn.addEventListener('click', mergeSort)
+heapSortBtn.addEventListener('click', heapSort)
+quickSortBtn.addEventListener('click', quickSort)
+treeSortBtn.addEventListener('click', treeSort)
 speedSelect.addEventListener('change', () => { config.speed = speedSelect.value })
 
 
@@ -277,6 +285,87 @@ async function selectionSort() {
     await changeGraphBarColor(i, SORTED_COLOR)
   }
 
+  console.log(arrNums)
+  btnDisabled(false)
+}
+
+function mergeSort() {
+  console.log("===Merge Sort Start!===")
+  initGraph()
+
+  if (arrNums.length !== 0) {
+    arrNums = mergeSortSplit(arrNums, 0)
+  }
+
+  console.log(arrNums)
+  btnDisabled(false)
+}
+
+function mergeSortSplit(arr, startIdx) {
+  if (arr.length === 1) return arr
+
+  const mid = Math.ceil(arr.length / 2)
+
+  const left = arr.slice(0, mid)
+  const right = arr.slice(mid)
+  
+  return merge(mergeSortSplit(left, startIdx), mergeSortSplit(right, startIdx + mid), startIdx)
+}
+
+function merge(left, right, startIdx) {
+  const sorted = []
+
+  // while (left.length && right.length) {
+  //   if (left[0] < right[0]) {
+  //     sorted.push(left.shift())
+  //   } else {
+  //     sorted.push(right.shift())
+  //   }
+  // }
+  // return [...sorted, ...left, ...right]
+
+  let i = 0, j = 0
+
+  while (i < left.length && j < right.length) {
+    if (left[i] < right[j]) {
+      sorted.push(left[i++])
+    } else {
+      sorted.push(right[j++])
+    }
+  }
+  while (i < left.length) {
+    sorted.push(left[i++])
+  }
+  while (j < right.length) {
+    sorted.push(right[j++])
+  }
+
+  return sorted
+}
+
+async function heapSort() {
+  console.log("===Heap Sort Start!===")
+  initGraph()
+
+
+  console.log(arrNums)
+  btnDisabled(false)
+}
+
+async function quickSort() {
+  console.log("===Quick Sort Start!===")
+  initGraph()
+  
+  
+  console.log(arrNums)
+  btnDisabled(false)
+}
+
+async function treeSort() {
+  console.log("===Tree Sort Start!===")
+  initGraph()
+  
+ 
   console.log(arrNums)
   btnDisabled(false)
 }

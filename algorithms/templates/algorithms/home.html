@@ -7,8 +7,6 @@
 
 
 {% block content %}
-<h1>Index.html</h1>
-
 <div class="config-box">
   {% comment %} 
   <input type="" name="nums" id="numsList">
@@ -39,10 +37,25 @@
 <div class="config-show"></div>
 <div class="graph-box"></div>
 
-<button type="button" id="randomCreate">Randomly Create</button>
-<button type="button" id="bubbleSort">Bubble Sort</button>
-<button type="button" id="insertionSort">Insertion Sort</button>
-<button type="button" id="selectionSort">Selection Sort</button>
+<div class="button-box">
+  <div>
+    <p>그래프 생성</p>
+    <button type="button" id="randomCreate">Randomly Create</button>
+  </div>
+  <div>
+    <p>비교 정렬</p>
+    <button type="button" id="bubbleSort">Bubble Sort</button>
+    <button type="button" id="insertionSort">Insertion Sort</button>
+    <button type="button" id="selectionSort">Selection Sort</button>
+  </div>
+  <div hidden>
+    <p>분할 정복 정렬</p>
+    <button type="button" id="mergeSort">Merge Sort</button>
+    <button type="button" id="heapSort">Heap Sort</button>
+    <button type="button" id="quickSort">Quick Sort</button>
+    <button type="button" id="treeSort">Tree Sort</button>
+  </div>
+</div>
 
 <script src="{% static 'sort.js' %}"></script>
 {% endblock content %}
