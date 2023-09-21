@@ -1,0 +1,51 @@
+body, p {
+  margin: 0;
+}
+
+.graph-box {
+  display: flex;
+  flex-flow: row no-wrap;
+  justify-content: space-evenly;
+
+  background: blue;
+  color: red;
+
+  margin: 50px auto;
+  padding: 20px;
+  width: 80%;
+  height: 45vw;
+}
+
+.graph-bar {
+  flex-grow: 1;
+
+  background: grey;
+  color: yellow;
+
+  border: 1px solid pink;
+}
+
+.config-box {
+  position: fixed;
+  top: 0;
+  padding: 10px;
+  width: 100%;
+
+  background: rgba(226, 225, 225, 0.798);
+}
+
+.button-box { 
+  position: fixed;
+  bottom: 0;
+  padding: 10px;
+  width: 100%;
+
+  display: flex;
+  flex-wrap: row flex-wrap;
+
+  background-color: rgba(169, 169, 169, 0.638);
+}
+
+.button-box > div {
+  margin-right: 30px;
+}
