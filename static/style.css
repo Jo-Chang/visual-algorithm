@@ -7,7 +7,7 @@ body, p {
   flex-flow: row no-wrap;
   justify-content: space-evenly;
 
-  background: blue;
+  border: 1px solid rgba(200, 200, 200);
   color: red;
 
   margin: 50px auto;

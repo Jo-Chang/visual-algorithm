@@ -3,7 +3,7 @@ console.log("start!")
 const SORTED_COLOR = '#404040'
 const SWAP_COLOR = 'green'
 const BASIC_COLOR = 'grey'
-const COMPARE_COLOR = 'yellow'
+const COMPARE_COLOR = 'green'
 
 const config = {
   nums: 10,
@@ -86,7 +86,7 @@ function arrayGraph() {
     newGraph.id = `graph-bar-${Number(idx) + 1}`
     newGraph.style.width = 100 / config.nums + "%"
     newGraph.style.height = arrNums[idx] / config.nums * 100 + "%"
-    newGraph.textContent = arrNums[idx]
+    // newGraph.textContent = arrNums[idx]
     boxDiv.appendChild(newGraph)
   }
 }
